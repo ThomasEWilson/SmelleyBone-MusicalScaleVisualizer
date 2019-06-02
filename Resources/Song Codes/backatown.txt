@@ -1,0 +1,27 @@
+Backatown
+Key: Db (Ebm) 
+Tempo: 98
+Chords: EbM7/Ab7,Abm7
+--------------------------
+
+Melody 1
+--------
+eFgbebge/aeCeceag/eFgbeba8ge6/CeaCce8a4/*333343(7)23(7)43(8)233*EbM7/Ab7,Abm7
+
+Melody 2
+--------
+486Aag6ed8eC6/C46CRc6c46c66b6/be886Aag6ed8eC6/C46CRc6cd84/*4(9)3(5)4(10)334*EbM7/Ab7,Abm7
+
+Melody 3
+--------
+4ggRg86ggR/RgggFg6a84ggga6/*4(15)*EbM7/Ab7,Abm7
+
+4ddRd86ddR/RdddCd6e84cccd6/*4(11)3334 (need to implement stacked melodies first)
+
+Melody 4
+--------
+Aa6g8eeAaAagAaAag/AaAageAaAagbRega6/*4(30)*EbM7/Ab7,Abm7
+
+Solo
+----
+be84dC8ddCb6/8a6a8g6aA8aAaged6/8g8ag6e8d6e.8e86g6/8gFed66d.8e886A6/a8xg6e.8e8886A6/age86g66e.8d88/6d7xddde6F8edb6A8gag6/e6xxxxxxxxx84/*35(6)4(48)3(14)4*EbM7/Ab7,Abm7
