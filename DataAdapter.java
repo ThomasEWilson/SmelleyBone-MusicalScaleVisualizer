@@ -40,7 +40,25 @@ public class DataAdapter {
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(query);
          while (resultSet.next()) {
-            Boneder.addScale(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
+            Music.addScale(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
+         }
+         resultSet.close();
+         statement.close();
+      } 
+      catch (SQLException e) {
+         System.out.println("Database access error!");
+         e.printStackTrace();
+      }
+   }
+   
+   // load scales from database
+   public void loadChords() {
+      try {
+         String query = "SELECT * FROM Chords";
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(query);
+         while (resultSet.next()) {
+            Music.addChord(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6));
          }
          resultSet.close();
          statement.close();

@@ -1,11 +1,15 @@
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Music {
-   static String[] FLATS = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
-   static String[] SHARPS = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-   static int[] PITCHES = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-   static String[] INTERVALS = {"P1/d2", "m2/A1", "M2/d3", "m3/A2", "M3/d4", "P4/A3", "D5/A4/TT", "P5/d6", "m6/A5", "M6/d7", "m7/A6", "M7/d8", "P8/A7/d9", "m9/A8", "M9/d10", "m10/A9", "M10/d11", "P11/A10", "d12/A11", "P12/d13", "m13/A12", "M13/d14", "m14/A13", "M14/d15", "P15/A14", "A15"};
-   static String[] MODES = {"Ionian", "Dorian", "Phrygian", "Lydian", "Mixolydian", "Aeolian", "Locrian"};
+   public static String[] FLATS = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
+   public static String[] SHARPS = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+   public static String[] INTERVALS = {"P1/d2", "m2/A1", "M2/d3", "m3/A2", "M3/d4", "P4/A3", "D5/A4/TT", "P5/d6", "m6/A5", "M6/d7", "m7/A6", "M7/d8", "P8/A7/d9", "m9/A8", "M9/d10", "m10/A9", "M10/d11", "P11/A10", "d12/A11", "P12/d13", "m13/A12", "M13/d14", "m14/A13", "M14/d15", "P15/A14", "A15"};
+   public static String[] MODES = {"Ionian", "Dorian", "Phrygian", "Lydian", "Mixolydian", "Aeolian", "Locrian"};
+   public static LinkedList<Scale> SCALES = new LinkedList<Scale>();
+   public static LinkedList<Chord> CHORDS = new LinkedList<Chord>();
+   public static LinkedList<Progression> PROGRESSIONS = new LinkedList<Progression>();
 
    /////// METHODS ///////
 
@@ -128,5 +132,37 @@ public class Music {
       //System.out.println("Pitch A: " + pA + ", Pitch B: " + pB + ", Octave A: " + oA + ", Octave B: " + oB + " ... Interval: " + interval);
       
       return interval;
+   }
+   
+   public static void addScale(String nameIn, String degreesIn, String formulaIn, String infoIn) {
+      boolean found = false;
+      if (SCALES != null) {
+         for (Scale scale : SCALES) {
+            if (scale.getName().equals(nameIn)) {
+               System.out.println("Existing " + nameIn + " Scale found");
+               found = true;
+            }
+         }
+      }
+      if (!found) {
+         Scale scale = new Scale(nameIn, degreesIn, formulaIn, infoIn);
+         SCALES.add(scale);
+      }
+   }
+   
+   public static void addChord(String nameIn, String symbolIn, String qualityIn, String formulaIn, String notationIn, String infoIn) {
+      boolean found = false;
+      if (CHORDS != null) {
+         for (Chord chord : CHORDS) {
+            if (chord.getName().equals(nameIn)) {
+               System.out.println("Existing " + nameIn + " Chord found");
+               found = true;
+            }
+         }
+      }
+      if (!found) {
+         Chord chord = new Chord(nameIn, symbolIn, qualityIn, formulaIn, notationIn, infoIn);
+         CHORDS.add(chord);
+      }
    }
 }

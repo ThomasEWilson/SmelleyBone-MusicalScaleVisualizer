@@ -22,8 +22,6 @@ public class Section  implements Iterable<Measure> {
       buildMeasures();
       assignOctaves();
       assignChords();
-      
-      buildStats();
    }
 
    // ITERATOR OVERRIDE

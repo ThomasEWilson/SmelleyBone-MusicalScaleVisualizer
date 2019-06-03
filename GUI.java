@@ -17,7 +17,6 @@ import javax.swing.Icon;
 public class GUI {
    final static int WIDTH = 960, HEIGHT = 540;
    final static Random rand = new Random();
-   final static Music music = new Music();
    private static Scale scale;
    private static JLabel scaleNameLabel, scaleNotesLabel, scaleFormulaLabel, scaleInfoLabel;
    private static JButton showButton, randButton;
@@ -55,8 +54,8 @@ public class GUI {
       scaleNotesLabel = new JLabel(" ");
       scaleFormulaLabel = new JLabel(" ");
       scaleInfoLabel = new JLabel(" ");
-      keyBox = new JComboBox(music.FLATS);
-      prevRand = rand.nextInt(Boneder.scales.size());
+      keyBox = new JComboBox(Music.FLATS);
+      prevRand = rand.nextInt(Music.SCALES.size());
       
       addComponentsToPane(frame.getContentPane());
       
@@ -118,10 +117,10 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                int num = prevRand;
                while (num == prevRand) {
-                  num = rand.nextInt(Boneder.scales.size());
+                  num = rand.nextInt(Music.SCALES.size());
                }
                prevRand = num;
-               scale = Boneder.scales.get(num);
+               scale = Music.SCALES.get(num);
                scaleNameLabel.setText(scale.getName());
                showButton.setEnabled(true);
                clearLabels();

@@ -33,6 +33,7 @@ public class Boneder {
       dataAdapter = new DataAdapter(connection);
       dataAdapter.loadScales();
       dataAdapter.loadSongs();
+      buildStats();
       
       // For each song
       for (Song song : songs) {
@@ -75,23 +76,7 @@ public class Boneder {
       }
    }
    
-   public static void addScale(String nameIn, String degreesIn, String formulaIn, String infoIn) {
-      boolean found = false;
-      if (scales != null) {
-         for (Scale scale : scales) {
-            if (scale.getName().equals(nameIn)) {
-               System.out.println("Existing " + nameIn + " Scale found");
-               found = true;
-            }
-         }
-      }
-      if (!found) {
-         Scale scale = new Scale(nameIn, degreesIn, formulaIn, infoIn);
-         scales.add(scale);
-      }
-   }
-   
-   public void buildStats() {
+   public static void buildStats() {
       stats = new StatMap();
    
       for (Song song : songs) {
