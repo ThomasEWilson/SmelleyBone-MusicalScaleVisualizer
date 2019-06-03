@@ -7,15 +7,17 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 
 public class DataAdapter {
+   // assigned at construction
    private Connection connection;
-   /*private User user;
-   private User temp;*/
    
+   // CONSTRUCTOR
    public DataAdapter(Connection connection) {
       this.connection = connection;
    }
    
-    // load songs from database
+   /////// METHODS ///////
+   
+   // load songs from database
    public void loadSongs() {
       try {
          String query = "SELECT * FROM Songs";
@@ -51,7 +53,7 @@ public class DataAdapter {
       }
    }
    
-   // load scales from database
+   // load chords from database
    public void loadChords() {
       try {
          String query = "SELECT * FROM Chords";

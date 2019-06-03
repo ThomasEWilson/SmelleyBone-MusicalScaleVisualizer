@@ -1,8 +1,9 @@
 import java.util.LinkedList;
 
 public class Scale {
-   private String name, formula, info;
-   private int[] degrees;
+  // assigned at construction
+   public String name, formula, info;
+   public int[] degrees;
 
    // CONSTRUCTOR
    public Scale(String nameIn, String degreesIn, String formulaIn, String infoIn) {
@@ -17,6 +18,7 @@ public class Scale {
    
    /////// METHODS ///////
    
+   // returns scale pitches rooted at 'key' (not necessarily in that key) - fix later
    public String[] getInKey(String key) {
       String[] notes = new String[12];
       String[] accidentals = Music.getAccidentalsOf(key);
@@ -37,23 +39,4 @@ public class Scale {
       }
       return notes;
    }
-   
-   /////// GETTERS ///////
-   
-   public String getName() {
-      return name;
-   }
-   
-   public int[] getDegrees() {
-      return degrees;
-   }
-   
-   public String getFormula() {
-      return formula;
-   }
-   
-   public String getInfo() {
-      return info;
-   }
-   
 }

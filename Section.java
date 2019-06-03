@@ -1,22 +1,22 @@
 import java.util.LinkedList;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
 
-public class Section  implements Iterable<Measure> {
-   private final char MEAS_SEP = '*';
-   private StatMap stats;
-   private String code, codeMeasures, codeOctaves, codeChords;
-   private LinkedList<Measure> measures;
+public class Section implements Iterable<Measure> {
+   private final char SECT_SEP = '*'; // character separating measure section from octave section from chord section
+   private final char MEAS_SEP = '/'; // character separating measures from each other
+
+   // assigned at construction
+   public String code, codeMeasures, codeOctaves, codeChords;
    
-   private double[] totals = new double[13];
-   private int[] Uintervals = new int[26];
-   private int[] Dintervals = new int[26];
+   // assigned in buildMeasures()
+   public LinkedList<Measure> measures = new LinkedList<>();
+   
+   // assigned upon buildStats() being called from parent's buildStats()  
+   public StatMap stats = new StatMap();
 
    // CONSTRUCTOR
    public Section(String codeIn) {
       code = codeIn;
-      measures = new LinkedList<Measure>();
       
       splitSection();
       buildMeasures();
@@ -24,25 +24,21 @@ public class Section  implements Iterable<Measure> {
       assignChords();
    }
 
-   // ITERATOR OVERRIDE
-   @Override
-   public Iterator<Measure> iterator() {
-      return measures.iterator();
-   }
-
    /////// METHODS ///////
    
+   // builds measures separated by MEAS_SEP
    public void buildMeasures() {
       String tempCode = codeMeasures;
       int division = 0;
    
       while (!tempCode.isEmpty()) {
-         division = tempCode.indexOf('/');
+         division = tempCode.indexOf(MEAS_SEP);
          measures.add(new Measure(tempCode.substring(0, division + 1)));
          tempCode = tempCode.substring(division + 1);
       }
    }
    
+   // assigns octaves to every note of every measure for this section based on the imported octave code
    public void assignOctaves() {
       int allNotes = 0;
       int o = 0;
@@ -52,7 +48,7 @@ public class Section  implements Iterable<Measure> {
       int interval;
       for (Measure measure : measures) {
          for (Note note : measure) {
-            if (note.getPitch() == -1) {
+            if (note.pitch == -1) {
                continue;
             }
          // get next octave group
@@ -82,20 +78,10 @@ public class Section  implements Iterable<Measure> {
                   o++;
                }
             }
-            note.setOctave(octave);
+            note.octave = octave;
             if (prevNote != null) {
                interval = Music.getInterval(prevNote, note);
-               note.setInterval(interval);
-               if (interval > 0) {
-                  Uintervals[interval]++;
-               }
-               else if (interval < 0) {
-                  Dintervals[interval*-1]++;
-               }
-               else {
-                  Uintervals[0]++;
-                  Dintervals[0]++;
-               }
+               note.interval = interval;
             }
             count--;
             prevNote = note;
@@ -103,14 +89,17 @@ public class Section  implements Iterable<Measure> {
       }
    }
 
+   // assigns chords to every measure for this section based on the imported chord code
    public void assignChords() {
-   
+   // find chord name(s) associated with measure
+   // get that chord in this song's key
    }
 
+   // splits the entire solo or melody into measures, octaves, and chords
    public void splitSection() {
-      int a = code.indexOf(MEAS_SEP);
+      int a = code.indexOf(SECT_SEP);
       String code2 = code.substring(a + 1);
-      int b = code2.indexOf(MEAS_SEP);
+      int b = code2.indexOf(SECT_SEP);
       codeMeasures = code.substring(0, a);
       //System.out.println("Measures: " + codeMeasures);
       codeOctaves = code2.substring(0, b);
@@ -118,55 +107,20 @@ public class Section  implements Iterable<Measure> {
       codeChords = code2.substring(b + 1);
       //System.out.println("Chords: " + codeChords);
    }
-
+   
+   // Build children's stats & build own stats based on those
    public void buildStats() {
-      stats = new StatMap();
-      
       for (Measure measure : measures) {
          measure.buildStats();
-         stats.add(measure.getStats());
+         stats.add(measure.stats);
       }
       
-      Map<String, Map<String, Integer>> totals = stats.get("totals");
-      Map<String, Map<String, Integer>> percents = stats.get("percents");
-      
-      totals.forEach( 
-         (category, nestMap) -> {
-            nestMap.forEach(
-               (key, value) -> {
-                  double val = value; // cast to double
-                  percents.get(category).put(key, (int)java.lang.Math.round(value/stats.getNoteCount()*100));
-               });
-         });
-   }
-
-   public void statSummary() {
-      stats.summary();
-   }
-
-   /////// GETTERS ///////
-   
-   public LinkedList<Measure> getMeasures() {
-      return measures;
+      stats.calculatePercents();
    }
    
-   public StatMap getStats() {
-      return stats;
-   }
-   
-   public String getCode() {
-      return code;
-   }
-   
-   public String getCodeMeasures() {
-      return codeMeasures;
-   }
-   
-   public String getCodeOctaves() {
-      return codeOctaves;
-   }
-   
-   public String getCodeChords() {
-      return codeChords;
+   // ITERATOR OVERRIDE
+   @Override
+   public Iterator<Measure> iterator() {
+      return measures.iterator();
    }
 }

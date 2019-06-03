@@ -1,16 +1,14 @@
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class StatMap {
-   private Map<String, Map<String, Map<String, Integer>>> map;
-   private int noteCount;
+
+  // assigned when parent's buildStats() is called
+   public Map<String, Map<String, Map<String, Integer>>> map = new HashMap<String, Map<String, Map<String, Integer>>>();;
+   public int noteCount = 0;
 
    // CONSTRUCTOR
    public StatMap() {
-      map = new HashMap<String, Map<String, Map<String, Integer>>>();
-      noteCount = 0;
-   
       map.put("totals", new HashMap<String, Map<String, Integer>>());
       map.put("percents", new HashMap<String, Map<String, Integer>>());
       
@@ -25,17 +23,17 @@ public class StatMap {
       map.get("percents").put("lengths", new HashMap<String, Integer>());
    }
    
+   /////// METHODS ///////
+   
+   // shorthand instead of typing stats.map.get()
    public Map<String, Map<String, Integer>> get(String key) {
       return map.get(key);
    }
    
-   public Map<String, Map<String, Map<String, Integer>>> getMap() {
-      return map;
-   }
-   
+   // adds the totals of a child's map to this map
    public void add(StatMap map2) {
    // each stat (total, percentage)
-      map2.getMap().forEach(
+      map2.map.forEach(
          (stat, nestMap1) -> {
            // each category (pitch, octave, interval, length)
             nestMap1.forEach(
@@ -49,9 +47,10 @@ public class StatMap {
                      });
                });
          });
-      noteCount += map2.getNoteCount();
+      noteCount += map2.noteCount;
    }
    
+   // displays totals & percents for everything
    public void summary() {
      // each stat (total, percentage)
       map.forEach(
@@ -67,29 +66,36 @@ public class StatMap {
                         if (!key.equals("0")) {
                            String displayKey = key;
                            if (category.equals("pitches")) {
-                           
+                              // change displayKey to note name for readability
                            }
                            else if (category.equals("octaves")) {
                            
                            }
                            else if (category.equals("intervals")) {
-                           
+                              // change displayKey to interval name for readability
                            }
                            else if (category.equals("lengths")) {
-                           
+                              // change displayKey to length names for readability
                            }
-                           System.out.println(key + ":     " + value);
+                           System.out.println(key + ":     " + value); // Consider sorting these before displaying as well
                         }
                      });
                });
          });
    }
-   
-   public void incrementNoteCount() {
-      noteCount++;
-   }
-   
-   public int getNoteCount() {
-      return noteCount;
+  
+   // calculate percents based on existing totals
+   public void calculatePercents() {
+      Map<String, Map<String, Integer>> totals = map.get("totals");
+      Map<String, Map<String, Integer>> percents = map.get("percents");
+      
+      totals.forEach( 
+         (category, nestMap) -> {
+            nestMap.forEach(
+               (key, value) -> {
+                  double val = value; // cast to double
+                  percents.get(category).put(key, (int)java.lang.Math.round(value/noteCount*100));
+               });
+         });
    }
 }

@@ -1,13 +1,15 @@
+import java.util.Map;
 import java.util.LinkedList;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
 
-public class Measure  implements Iterable<Note> {
-   private String code; // from database
-   private String[] chords;
-   private LinkedList<Note> notes;
-   private StatMap stats;
+public class Measure implements Iterable<Note> {
+
+   // assigned upon construction
+   public String code; // from database
+   public LinkedList<Note> notes = new LinkedList<>();
+   
+   // assigned upon buildStats() being called from parent's buildStats()   
+   public StatMap stats = new StatMap();
    
    // CONSTRUCTOR
    Measure(String codeIn) {
@@ -16,16 +18,10 @@ public class Measure  implements Iterable<Note> {
       assignNotes();
    }
    
-   // ITERATOR OVERRIDE
-   @Override
-   public Iterator<Note> iterator() {
-      return notes.iterator();
-   }
-   
    /////// METHODS ///////
    
+   // build note sequence based on imported database code
    public void assignNotes() {
-      notes = new LinkedList<Note>();
       double modifier;
       for (int i = 0; i < code.length(); i++) {
          modifier = 1;
@@ -65,6 +61,7 @@ public class Measure  implements Iterable<Note> {
       }
    }
    
+   // builds initial stats to be the base stat map upon which all others create their own
    public void buildStats() {
       stats = new StatMap();
       Map<String, Map<String, Integer>> percents = stats.get("percents");
@@ -77,56 +74,33 @@ public class Measure  implements Iterable<Note> {
       
       // totals
       for (Note note : notes) {
-         if (note.getPitch() != -1) {
-            stats.incrementNoteCount();  
+         if (note.pitch != -1) {
+            stats.noteCount++;  
          }
          
          // get relevant note values
-         String pitch = Integer.toString(note.getPitch());
-         String octave = Integer.toString(note.getOctave());
-         String interval = Integer.toString(note.getInterval());
-         String length = Double.toString(note.getLength());
+         String pitch = Integer.toString(note.pitch);
+         String octave = Integer.toString(note.octave);
+         String interval = Integer.toString(note.interval);
+         String length = Double.toString(note.length);
          
          // add values to map
          pitches.put(pitch, (pitches.containsKey(pitch)) ? pitches.get(pitch) + 1 : 1);
          octaves.put(octave, (octaves.containsKey(octave)) ? octaves.get(octave) + 1 : 1);
          intervals.put(interval, (intervals.containsKey(interval)) ? intervals.get(interval) + 1 : 1); 
-         if (note.getInterval() > 0) { pos++; } 
-         if (note.getInterval() < 0) { neg++; }
+         if (note.interval > 0) { pos++; } 
+         if (note.interval < 0) { neg++; }
          lengths.put(length, (lengths.containsKey(length)) ? lengths.get(length) + 1 : 1);
       }
       intervals.put("+", pos); intervals.put("-", neg);
       //pitches.put("inKey", inKey);
-   
-      totals.forEach( 
-         (category, nestMap) -> {
-            nestMap.forEach(
-               (key, value) -> {
-                  double val = value; // cast to double
-                  percents.get(category).put(key, (int)java.lang.Math.round(value/stats.getNoteCount()*100));
-               });
-         });
+      
+      stats.calculatePercents();
    } 
    
-   public void statSummary() {
-      stats.summary();
-   }
-   
-   /////// GETTERS ///////
-   
-   public LinkedList<Note> getNotes() {
-      return notes;
-   }
-   
-   public String[] getChords() {
-      return chords;
-   }
-   
-   public String getCode() {
-      return code;
-   }
-   
-   public StatMap getStats() {
-      return stats;
+   // ITERATOR OVERRIDE
+   @Override
+   public Iterator<Note> iterator() {
+      return notes.iterator();
    }
 }

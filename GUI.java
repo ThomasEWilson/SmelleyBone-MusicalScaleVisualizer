@@ -38,7 +38,7 @@ public class GUI {
          });
    }
   
-    //Create the GUI and show it.  
+   // create the GUI and show it 
    private static void createAndShowGUI() {
    
     // Create and set up frame
@@ -65,6 +65,7 @@ public class GUI {
       frame.setVisible(true);
    }
 
+   // add all the components before revealing frame
    public static void addComponentsToPane(Container pane) {
       JButton button;
       pane.setLayout(new GridBagLayout());
@@ -121,7 +122,7 @@ public class GUI {
                }
                prevRand = num;
                scale = Music.SCALES.get(num);
-               scaleNameLabel.setText(scale.getName());
+               scaleNameLabel.setText(scale.name);
                showButton.setEnabled(true);
                clearLabels();
             } 
@@ -136,13 +137,16 @@ public class GUI {
          new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
                scaleNotesLabel.setText(getScaleText());
-               scaleFormulaLabel.setText(scale.getFormula());
+               scaleFormulaLabel.setText(scale.formula);
                //scaleInfoLabel.setText(scale.getInfo());
             } 
          } );
       pane.add(showButton, c);
    }
    
+   /////// METHODS ///////
+   
+   // removes placeholders of notes not in the scale from the text to be displayed
    public static String getScaleText() {
       String[] notes = scale.getInKey((String)keyBox.getSelectedItem());
       String text = "";
@@ -155,6 +159,7 @@ public class GUI {
       return text;
    }
    
+   // empty the labels' text
    public static void clearLabels() {
       scaleNotesLabel.setText(" ");
       scaleFormulaLabel.setText(" ");
