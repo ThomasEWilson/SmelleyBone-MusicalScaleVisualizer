@@ -1,12 +1,14 @@
 import java.util.LinkedList;
 import java.util.Iterator;
 
-public class Section implements Iterable<Measure> {
-   private final char SECT_SEP = '*'; // character separating measure section from octave section from chord section
-   private final char MEAS_SEP = '/'; // character separating measures from each other
+public class Part implements Iterable<Measure> {
+   private final char SECTION_SEP = '*'; // character separating measure section from octave section from chord section
+   private final char MEASURE_SEP = '/'; // character separating measures from each other
+   private final char PI_SEP = ':';      // character separating player from instrument
 
    // assigned at construction
-   public String code, codeMeasures, codeOctaves, codeChords;
+   public String code, codeMeasures, codeOctaves, codeChords, type, instrument, player;
+   public int num;
    
    // assigned in buildMeasures()
    public LinkedList<Measure> measures = new LinkedList<>();
@@ -15,8 +17,20 @@ public class Section implements Iterable<Measure> {
    public StatMap stats = new StatMap();
 
    // CONSTRUCTOR
-   public Section(String codeIn) {
+   public Part(int numIn, String codeIn) {
+      num = numIn;
       code = codeIn;
+      if (code.charAt(0) == '[') { 
+         int division = code.indexOf(PI_SEP);
+         player = code.substring(1, division);
+         int division2 = code.indexOf(']');
+         instrument = code.substring(division + 1, division2);
+         code = code.substring(division2 + 1);
+         type = "Solo";
+      }
+      else {
+         type = "Melody";
+      }
       
       splitSection();
       buildMeasures();
@@ -32,7 +46,7 @@ public class Section implements Iterable<Measure> {
       int division = 0;
    
       while (!tempCode.isEmpty()) {
-         division = tempCode.indexOf(MEAS_SEP);
+         division = tempCode.indexOf(MEASURE_SEP);
          measures.add(new Measure(tempCode.substring(0, division + 1)));
          tempCode = tempCode.substring(division + 1);
       }
@@ -97,9 +111,9 @@ public class Section implements Iterable<Measure> {
 
    // splits the entire solo or melody into measures, octaves, and chords
    public void splitSection() {
-      int a = code.indexOf(SECT_SEP);
+      int a = code.indexOf(SECTION_SEP);
       String code2 = code.substring(a + 1);
-      int b = code2.indexOf(SECT_SEP);
+      int b = code2.indexOf(SECTION_SEP);
       codeMeasures = code.substring(0, a);
       //System.out.println("Measures: " + codeMeasures);
       codeOctaves = code2.substring(0, b);

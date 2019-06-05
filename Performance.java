@@ -1,15 +1,16 @@
 import java.util.LinkedList;
 import java.util.Iterator;
 
-public class Performance implements Iterable<SectionList> {
-   private final char SECT_SEP = '-'; // character separating solo or melody codes from each other
+public class Performance implements Iterable<Part> {
+   private final char SECTION_SEP = '-'; // character separating solo or melody codes from each other
    
    // assigned at construction
    public int tempo;
    public String soloCode, melodyCode, venue;
    
    // assigned with buildSections()
-   public LinkedList<SectionList> lists = new LinkedList<>();
+   public LinkedList<Part> parts = new LinkedList<>();
+   public int soloCount = 1, melodyCount = 1;
    
    // assigned upon buildStats() being called from parent's buildStats()  
    public StatMap stats = new StatMap();
@@ -30,29 +31,27 @@ public class Performance implements Iterable<SectionList> {
    // Populates a list of sections according to given code (either solo or melody)
    public void buildSections(String code) {
       if (!code.isEmpty()) {
-         SectionList list = new SectionList(code.charAt(0));
-         String tempCode = code.substring(1);
+         int count = (code.charAt(0) == '[') ? soloCount : melodyCount;
          int division = 0;
-      
          while (division != -1) {
-            division = tempCode.indexOf(SECT_SEP);
+            division = code.indexOf(SECTION_SEP);
             if (division == -1) {
-               list.sections.add(new Section(tempCode.substring(0)));
+               parts.add(new Part(count, code));
             }
             else {
-               list.sections.add(new Section(tempCode.substring(0, division)));
-               tempCode = tempCode.substring(division + 1);
+               parts.add(new Part(count, code.substring(0, division)));
+               code = code.substring(division + 1);
             }
+            count++;
          }
-         lists.add(list);
       }
    }
    
    // Build children's stats & build own stats based on those
    public void buildStats() {
-      for (SectionList list : lists) {
-         list.buildStats();
-         stats.add(list.stats);
+      for (Part part : parts) {
+         part.buildStats();
+         stats.add(part.stats);
       }
       
       stats.calculatePercents();
@@ -60,7 +59,7 @@ public class Performance implements Iterable<SectionList> {
    
    // ITERATOR OVERRIDE
    @Override
-   public Iterator<SectionList> iterator() {
-      return lists.iterator();
+   public Iterator<Part> iterator() {
+      return parts.iterator();
    }
 }

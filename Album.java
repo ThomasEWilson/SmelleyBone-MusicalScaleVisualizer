@@ -18,9 +18,28 @@ public class Album implements Iterable<Song> {
    
    /////// METHODS ///////
    
+   // adds new song (and performance) to song list, adds new performance to song if song already exists
+   public void add(String titleIn, String artistIn, String venueIn, String keyIn, int tempoIn, String soloIn, String melodyIn) {
+      boolean found = false;
+      for (Song song : songs) {
+         if (song.title.equals(titleIn)) {
+            System.out.println("Existing Song '" + titleIn + "' found");
+            song.performances.add(new Performance(venueIn, tempoIn, soloIn, melodyIn));
+            found = true;
+         }
+      }
+      if (!found) {
+         Song newSong = new Song(titleIn, artistIn, keyIn);
+         newSong.performances.add(new Performance(venueIn, tempoIn, soloIn, melodyIn));
+         songs.add(newSong);
+      }
+   }
+   
+   
    // Build stats based on children
    public void buildStats() {
       for (Song song : songs) {
+         song.buildStats();
          stats.add(song.stats);
       }
       

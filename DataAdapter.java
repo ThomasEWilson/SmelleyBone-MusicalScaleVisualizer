@@ -17,6 +17,13 @@ public class DataAdapter {
    
    /////// METHODS ///////
    
+   public void load() {
+      loadSongs();
+      Catalog.buildStats();
+      loadScales();
+      loadChords();
+   }
+   
    // load songs from database
    public void loadSongs() {
       try {
@@ -24,7 +31,8 @@ public class DataAdapter {
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(query);
          while (resultSet.next()) {
-            Boneder.addSong(resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6), resultSet.getString(7), resultSet.getString(8));
+                             // String titleIn         String artistIn          String albumIn          String venueIn           String keyIn           int tempoIn           String soloIn          String melodyIn
+            Catalog.add(resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7), resultSet.getString(8), resultSet.getString(9));
          }
          resultSet.close();
          statement.close();
