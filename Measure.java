@@ -9,7 +9,7 @@ public class Measure implements Iterable<Note> {
    public LinkedList<Note> notes = new LinkedList<>();
    
    // assigned upon buildStats() being called from parent's buildStats()   
-   public StatMap stats = new StatMap();
+   public Stats stats = new Stats();
    
    // CONSTRUCTOR
    Measure(String codeIn) {
@@ -63,34 +63,31 @@ public class Measure implements Iterable<Note> {
    
    // builds initial stats to be the base stat map upon which all others create their own
    public void buildStats() {
-      stats = new StatMap();
-      Map<String, Map<String, Integer>> percents = stats.get("percents");
-      Map<String, Map<String, Integer>> totals = stats.get("totals");
-      Map<String, Integer> pitches = totals.get("pitches");
-      Map<String, Integer> octaves = totals.get("octaves");
-      Map<String, Integer> intervals = totals.get("intervals");
-      Map<String, Integer> lengths = totals.get("lengths");
+      Map<String, Integer> pitches = stats.totals.get("pitches");
+      Map<String, Integer> octaves = stats.totals.get("octaves");
+      Map<String, Integer> intervals = stats.totals.get("intervals");
+      Map<String, Integer> lengths = stats.totals.get("lengths");
       int pos = 0, neg = 0;
       
       // totals
       for (Note note : notes) {
          if (note.pitch != -1) {
-            stats.noteCount++;  
-         }
+            stats.noteCount++; 
          
          // get relevant note values
-         String pitch = Integer.toString(note.pitch);
-         String octave = Integer.toString(note.octave);
-         String interval = Integer.toString(note.interval);
-         String length = Double.toString(note.length);
+            String pitch = Integer.toString(note.pitch);
+            String octave = Integer.toString(note.octave);
+            String interval = Integer.toString(Math.abs(note.interval));
+            String length = note.lengthName;
          
          // add values to map
-         pitches.put(pitch, (pitches.containsKey(pitch)) ? pitches.get(pitch) + 1 : 1);
-         octaves.put(octave, (octaves.containsKey(octave)) ? octaves.get(octave) + 1 : 1);
-         intervals.put(interval, (intervals.containsKey(interval)) ? intervals.get(interval) + 1 : 1); 
-         if (note.interval > 0) { pos++; } 
-         if (note.interval < 0) { neg++; }
-         lengths.put(length, (lengths.containsKey(length)) ? lengths.get(length) + 1 : 1);
+            pitches.put(pitch, (pitches.containsKey(pitch)) ? pitches.get(pitch) + 1 : 1);
+            octaves.put(octave, (octaves.containsKey(octave)) ? octaves.get(octave) + 1 : 1);
+            intervals.put(interval, (intervals.containsKey(interval)) ? intervals.get(interval) + 1 : 1); 
+            if (note.interval > 0) { pos++; } 
+            if (note.interval < 0) { neg++; }
+            lengths.put(length, (lengths.containsKey(length)) ? lengths.get(length) + 1 : 1);
+         }
       }
       intervals.put("+", pos); intervals.put("-", neg);
       //pitches.put("inKey", inKey);

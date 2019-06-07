@@ -3,9 +3,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Music {
+   public static String[] PITCHES = {"(B#) C ", "(C#) Db", "D ", "(D#) Eb", "(Fb) E ", "F ", "(F#) Gb", "G ", "(G#) Ab", "A ", "(A#) Bb", "(Cb) B "};
    public static String[] FLATS = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
    public static String[] SHARPS = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-   public static String[] INTERVALS = {"P1/d2", "m2/A1", "M2/d3", "m3/A2", "M3/d4", "P4/A3", "D5/A4/TT", "P5/d6", "m6/A5", "M6/d7", "m7/A6", "M7/d8", "P8/A7/d9", "m9/A8", "M9/d10", "m10/A9", "M10/d11", "P11/A10", "d12/A11", "P12/d13", "m13/A12", "M13/d14", "m14/A13", "M14/d15", "P15/A14", "A15"};
+   public static String[] INTERVALS = {"P1", "m2/A1", "M2/d3", "m3/A2", "M3/d4", "P4/A3", "D5/A4", "P5/d6", "m6/A5", "M6/d7", "m7/A6", "M7/d8", "P8", "m9/A8", "M9/d10", "m10/A9", "M10/d11", "P11/A10", "d12/A11", "P12/d13", "m13/A12", "M13/d14", "m14/A13", "M14/d15", "P15/A14", "A15"};
    public static String[] MODES = {"Ionian", "Dorian", "Phrygian", "Lydian", "Mixolydian", "Aeolian", "Locrian"};
    
    // imported from database

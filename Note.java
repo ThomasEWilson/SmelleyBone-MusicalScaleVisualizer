@@ -24,22 +24,22 @@ public class Note {
    private void assignLength(int lengthIn) {
       switch (lengthIn) {
          case 1: length = 1; // whole
-            lengthName = "whole";
+            lengthName = "1";
             break;
          case 2: length = 0.5; // half
-            lengthName = "half";
+            lengthName = "2";
             break;
          case 4: length = 0.25; // quarter
-            lengthName = "quarter";
+            lengthName = "4";
             break;
          case 6: length = 0.0625; // sixteenth
-            lengthName = "sixteenth";
+            lengthName = "16";
             break;
          case 7: length = 0.03125; // thirty-second
-            lengthName = "thirty-second";
+            lengthName = "32";
             break;
          case 8: length = 0.125; // eighth
-            lengthName = "eighth";
+            lengthName = "8";
             break;
          default: length = 0; // error?
             lengthName = "error";
@@ -47,10 +47,10 @@ public class Note {
       }
       
       if (modifier > 1) {
-         lengthName += " (.)";
+         lengthName = "(.) " + lengthName;
       }
       else if (modifier < 1) {
-         lengthName += " (T)";
+         lengthName = "(T) " + lengthName;
       }
       
       length *= modifier;

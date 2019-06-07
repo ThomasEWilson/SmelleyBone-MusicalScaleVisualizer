@@ -10,7 +10,7 @@ public class Song implements Iterable<Performance> {
    public LinkedList<Performance> performances = new LinkedList<>();
    
    // assigned upon buildStats() being called from parent's buildStats()  
-   public StatMap stats = new StatMap();
+   public Stats stats = new Stats();
    
    // CONSTRUCTOR
    Song(String titleIn, String artistIn, String keyIn) {

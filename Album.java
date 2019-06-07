@@ -8,7 +8,7 @@ public class Album implements Iterable<Song> {
    public LinkedList<Song> songs = new LinkedList<>();
    
    // assigned when buildStats() is called
-   public StatMap stats = new StatMap();
+   public Stats stats = new Stats();
 
    // CONSTRUCTOR
    public Album(String nameIn, String artistIn) {

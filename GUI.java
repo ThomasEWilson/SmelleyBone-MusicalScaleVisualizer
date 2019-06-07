@@ -23,7 +23,7 @@ public class GUI {
    private static JComboBox keyBox;
    private static int prevRand;
    public static DecimalFormat formatter2 = new DecimalFormat("##");
-   public static DecimalFormat formatter = new DecimalFormat("0.00");
+   public static DecimalFormat twoDecimal = new DecimalFormat("0.00");
    private static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
    public static void run() {

@@ -13,11 +13,11 @@ public class Performance implements Iterable<Part> {
    public int soloCount = 1, melodyCount = 1;
    
    // assigned upon buildStats() being called from parent's buildStats()  
-   public StatMap stats = new StatMap();
+   public Stats stats = new Stats();
 
    // CONSTRUCTOR
    public Performance(String venueIn, int tempoIn, String soloIn, String melodyIn) {
-      venue = venueIn;
+      venue = (venueIn == null) ? "(album)" : venueIn;
       tempo = tempoIn;
       soloCode = soloIn;
       melodyCode = melodyIn;

@@ -14,7 +14,7 @@ public class Part implements Iterable<Measure> {
    public LinkedList<Measure> measures = new LinkedList<>();
    
    // assigned upon buildStats() being called from parent's buildStats()  
-   public StatMap stats = new StatMap();
+   public Stats stats = new Stats();
 
    // CONSTRUCTOR
    public Part(int numIn, String codeIn) {

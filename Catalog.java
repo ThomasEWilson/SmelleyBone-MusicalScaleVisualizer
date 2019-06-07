@@ -7,7 +7,7 @@ public class Catalog implements Iterable<Album> {
    public static LinkedList<Album> albums = new LinkedList<>();
    
    // assigned with buildStats()
-   public static StatMap stats = new StatMap();
+   public static Stats stats = new Stats();
    
    /////// METHODS ///////
    
@@ -46,16 +46,16 @@ public class Catalog implements Iterable<Album> {
    
    // displays summary of catalog
    public static void summary() {
-      System.out.println("-----------\nCatalog\n-----------)");
+      System.out.println("-----------\n  Catalog\n-----------");
       stats.summary();
       for (Album album : albums) {
-         System.out.println("Album: " + album.name + "\nArtist: " + album.artist);
-         album.stats.summary();
+         //System.out.println("Album: " + album.name + "\nArtist: " + album.artist);
+         //album.stats.summary();
          for (Song song : album) {
-            System.out.println("Song: " + song.title);
+            //System.out.println("Song: " + song.title);
             //song.stats.summary();
             for (Performance performance : song) {
-               System.out.println("Venue: " + performance.venue);
+               //System.out.println("Venue: " + performance.venue);
                //performance.stats.summary();
                for (Part part : performance) {
                   //System.out.println("Part: " + part.name);
